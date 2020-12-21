@@ -1,14 +1,23 @@
 defmodule AOC_2020.Day2 do
   def part_one() do
-    Enum.reduce(parse_file(), 0, fn x, acc ->
-      if old_valid_password?(x), do: acc + 1, else: acc
-    end)
+    Enum.count(parse_file(), &old_valid_password?/1)
   end
 
-  defp old_valid_password?([min, max, letter, password]) do
+  def part_two() do
+    Enum.count(parse_file(), &new_valid_password?/1)
+  end
+
+  defp old_valid_password?([low, high, letter, password]) do
     String.graphemes(password)
     |> Enum.count(&(&1 == letter))
-    |> Kernel.in(min..max)
+    |> Kernel.in(low..high)
+  end
+
+  defp new_valid_password?([low, high, letter, password]) do
+    low_match? = String.at(password, low - 1) == letter
+    high_match? = String.at(password, high - 1) == letter
+
+    !(low_match? && high_match?) && (low_match? || high_match?)
   end
 
   defp parse_file(input \\ "lib/day_2/input_file.txt") do
@@ -19,10 +28,14 @@ defmodule AOC_2020.Day2 do
   end
 
   defp structure_data(item) do
-    [policy, password] = String.split(item, ": ", parts: 2)
-    [range, letter] = String.split(policy, " ", parts: 2)
-    [low, high] = String.split(range, "-", parts: 2)
+    [policy, password] = split_string(item, ": ")
+    [range, letter] = split_string(policy, " ")
+    [low, high] = split_string(range, "-")
 
     [String.to_integer(low), String.to_integer(high), letter, password]
+  end
+
+  defp split_string(string, pattern) do
+    String.split(string, pattern, parts: 2)
   end
 end
