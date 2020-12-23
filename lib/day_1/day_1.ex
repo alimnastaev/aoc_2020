@@ -1,39 +1,23 @@
 defmodule AOC_2020.Day1 do
+  @target 2020
   def part_one() do
-    {a, b} =
-      list_of_numbers()
-      |> result_one()
-
-    a * b
+    try do
+      for x <- list_of_numbers(),
+          y <- list_of_numbers(),
+          x + y == @target,
+          do: throw({:break, x * y})
+    catch
+      {:break, result} -> result
+    end
   end
 
   def part_two() do
-    {a, b, c} =
-      list_of_numbers()
-      |> result_two()
-
-    a * b * c
-  end
-
-  defp result_one(list, target \\ 2020) do
-    Enum.reduce_while(list, nil, fn first_number, _acc ->
-      second_number = target - first_number
-
-      Enum.find(list, fn x -> x == second_number end)
-      |> case do
-        nil -> {:cont, nil}
-        x -> {:halt, {first_number, x}}
-      end
-    end)
-  end
-
-  defp result_two(list, target \\ 2020) do
     try do
-      for a <- list,
-          b <- list,
-          c <- list,
-          a + b + c == target,
-          do: throw({:break, {a, b, c}})
+      for x <- list_of_numbers(),
+          y <- list_of_numbers(),
+          z <- list_of_numbers(),
+          x + y + z == @target,
+          do: throw({:break, x * y * z})
     catch
       {:break, result} -> result
     end
