@@ -3,16 +3,22 @@ defmodule AOC_2020.Day4 do
   @with_optional ["byr", "cid", "ecl", "eyr", "hcl", "hgt", "iyr", "pid"]
   @eye_color ["amb", "blu", "brn", "gry", "grn", "hzl", "oth"]
 
-  def part_one(),
-    do:
+  def part_one() do
+    result =
       parse_file()
       |> Enum.count(&valid_keys?/1)
 
-  def part_two(),
-    do:
+    IO.puts("PART ONE result is: \n#{result}")
+  end
+
+  def part_two() do
+    result =
       parse_file()
       |> Enum.filter(&valid_keys?/1)
       |> Enum.count(&valid_values?/1)
+
+    IO.puts("PART TWO result is: \n#{result}")
+  end
 
   defp valid_keys?(map),
     do:
@@ -91,7 +97,7 @@ defmodule AOC_2020.Day4 do
       String.to_integer(string_integer)
       |> Kernel.in(low..high)
 
-  defp parse_file(input \\ "lib/day_4/input_file.txt"),
+  defp parse_file(input \\ "day_4/input_file.txt"),
     do:
       File.read!(input)
       |> String.split("\n\n")
@@ -99,3 +105,6 @@ defmodule AOC_2020.Day4 do
       |> Enum.map(fn list -> Enum.map(list, fn x -> String.split(x, ":", parts: 2) end) end)
       |> Enum.map(fn x -> Enum.map(x, fn [a, b] -> {a, b} end) |> Map.new() end)
 end
+
+AOC_2020.Day4.part_one()
+AOC_2020.Day4.part_two()

@@ -1,9 +1,17 @@
 defmodule AOC_2020.Day3 do
-  def part_one(), do: slope_type(3, 1)
+  def part_one() do
+    result = slope_type(3, 1)
 
-  def part_two(),
-    do:
-      slope_type(3, 1) * slope_type(1, 1) * slope_type(5, 1) * slope_type(7, 1) * slope_type(1, 2)
+    IO.puts("PART ONE result is: \n#{result}")
+  end
+
+  def part_two() do
+    result =
+      slope_type(3, 1) * slope_type(1, 1) * slope_type(5, 1) * slope_type(7, 1) *
+        slope_type(1, 2)
+
+    IO.puts("PART TWO result is: \n#{result}")
+  end
 
   def slope_type(right_move, down_move) do
     case down_move do
@@ -34,10 +42,13 @@ defmodule AOC_2020.Day3 do
     result
   end
 
-  def parse_file(input \\ "lib/day_3/input_file.txt"),
+  def parse_file(input \\ "day_3/input_file.txt"),
     do:
       File.read!(input)
       |> String.trim()
       |> String.split("\n")
       |> Enum.map(&String.graphemes/1)
 end
+
+AOC_2020.Day3.part_one()
+AOC_2020.Day3.part_two()
