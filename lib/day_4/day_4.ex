@@ -98,23 +98,4 @@ defmodule AOC_2020.Day4 do
       |> Enum.map(&String.split(&1, ~r/(\s)/))
       |> Enum.map(fn list -> Enum.map(list, fn x -> String.split(x, ":", parts: 2) end) end)
       |> Enum.map(fn x -> Enum.map(x, fn [a, b] -> {a, b} end) |> Map.new() end)
-
-  def permutations([]), do: [[]]
-
-  def permutations(list),
-    do: for(elem <- list, rest <- permutations(list -- [elem]), do: [elem | rest])
-
-  def result() do
-    result =
-      pop()
-      |> Enum.filter(fn x ->
-        if Enum.sum(x) == 7, do: IO.inspect(x)
-      end)
-
-    IO.inspect(result, label: "RESULT ? \n")
-  end
-
-  def pop() do
-    for x <- [1, 2, 3, 4], y <- [1, 2, 3, 4], x != y, do: [x, y]
-  end
 end
